@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Services.Exceptions;
 
@@ -19,6 +21,8 @@ namespace SalesWebMvc.Services
 
         public async Task<List<Seller>> FindAllAsync()
         {
+            //var list = _context.Seller.Include(s => s.Department);
+            //return await list.ToListAsync();
             return await _context.Seller.ToListAsync();
         }
 
@@ -30,7 +34,7 @@ namespace SalesWebMvc.Services
 
         public async Task<Seller> FindByIdAsync(int id)
         {
-            return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);                      
         }
 
         public async Task RemoveAsync(int id)
@@ -62,7 +66,8 @@ namespace SalesWebMvc.Services
             catch(DbConcurrencyException e)
             {
                 throw new DbConcurrencyException(e.Message);
-            }     
+            } 
+            
         }
     }
 }
