@@ -21,9 +21,9 @@ namespace SalesWebMvc.Services
 
         public async Task<List<Seller>> FindAllAsync()
         {
-            //var list = _context.Seller.Include(s => s.Department);
-            //return await list.ToListAsync();
-            return await _context.Seller.ToListAsync();
+            var list = _context.Seller.Include(s => s.Department);
+            return await list.ToListAsync();
+            //return await _context.Seller.ToListAsync();
         }
 
         public async Task InsertAsync(Seller obj)
@@ -66,8 +66,7 @@ namespace SalesWebMvc.Services
             catch(DbConcurrencyException e)
             {
                 throw new DbConcurrencyException(e.Message);
-            } 
-            
+            }             
         }
     }
 }
