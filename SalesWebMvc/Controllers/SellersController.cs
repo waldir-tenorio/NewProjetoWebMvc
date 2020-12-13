@@ -37,7 +37,10 @@ namespace SalesWebMvc.Controllers
             await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));
         }
-
+        /// <summary>
+        /// Delete GET
+        /// </summary>
+        /// <param name="id"></param>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -53,12 +56,31 @@ namespace SalesWebMvc.Controllers
 
             return View(obj);
         }
+        /// <summary>
+        /// Delete POST
+        /// </summary>
+        /// <param name="id"></param>
         [HttpPost]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             await _sellerService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = await _sellerService.FindByIdAsync(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
         }
     }
 }
